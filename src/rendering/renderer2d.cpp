@@ -16,8 +16,9 @@ namespace fea
     {
 #ifdef EMSCRIPTEN
 #else
-        auto glStatus = feaogl_LoadFunctions();
-        FEA_ASSERT(glStatus != feaogl_LOAD_FAILED, "Could not initialize the renderer! Make sure there is a valid OpenGL context!");
+        auto glStatus = glewInit();
+        FEA_ASSERT(glStatus == GLEW_OK, "Could not initialize the renderer! Make sure there is a valid OpenGL context!");
+        FEA_ASSERT(GLEW_VERSION_3_2, "OpenGL 3.2 not available!");
 #endif
         //glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);

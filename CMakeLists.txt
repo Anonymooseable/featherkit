@@ -262,6 +262,9 @@ if(BUILD_RENDERING)
         include_directories(${WINFIX} ${GLM_INCLUDE_DIRS})
     endif()
 
+    find_package(GLEW REQUIRED)
+    include_directories(${GLEW_INCLUDE_PATH})
+
     if(NOT EMSCRIPTEN)
         find_package(OpenGL REQUIRED)
         if(OPENGL_FOUND)
@@ -304,7 +307,6 @@ if(BUILD_RENDERING)
         include/fea/rendering/color.hpp
         include/fea/rendering/defaultshader.hpp
         include/fea/rendering/drawable2d.hpp
-        include/fea/rendering/gl_core_3_2.h
         include/fea/rendering/glmhash.hpp
         include/fea/rendering/opengl.hpp
         include/fea/rendering/projection.hpp
@@ -322,10 +324,6 @@ if(BUILD_RENDERING)
         include/fea/rendering/vertexattribute.hpp
         include/fea/rendering/viewport.hpp)
 
-    if(NOT EMSCRIPTEN)
-        set(rendering_gl_core_source_files
-            src/rendering/gl_core_3_2.c)
-    endif()
 
     if(BUILD_RENDERING_TEXT)
         set(freetype_gl_source_files 
@@ -360,7 +358,7 @@ if(BUILD_RENDERING)
         ${rendering_text_source_files}
         ${rendering_text_header_files})
 
-    target_link_libraries(${project_name}-rendering ${OPENGL_LIBRARIES} ${FREETYPE_LIBRARY})
+    target_link_libraries(${project_name}-rendering ${OPENGL_LIBRARIES} ${FREETYPE_LIBRARY} ${GLEW_LIBRARY})
 endif()
 
 if(BUILD_UI)
